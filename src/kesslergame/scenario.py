@@ -12,7 +12,7 @@ from .asteroid import Asteroid
 
 
 class Scenario:
-    def __init__(self, name: str = "Unnamed", num_asteroids: int = 0, asteroid_states: List[Dict[str, Any]] = None,
+    def __init__(self, name: str = "Unnamed", num_asteroids: int = None, asteroid_states: List[Dict[str, Any]] = None,
                  ship_states: List[Dict[str, Any]] = None, map_size: Tuple[int, int] = None, seed: int = None,
                  time_limit: float = float("inf"), ammo_limit_multiplier: float = 0.0, stop_if_no_ammo: bool = False):
         """
@@ -69,18 +69,17 @@ class Scenario:
             self.stop_if_no_ammo = False
 
         # Check for mismatch between explicitly defined number of asteroids and Tuple of states
-        if num_asteroids and asteroid_states:
+        if num_asteroids is not None and asteroid_states is not None:
             raise ValueError("Both `num_asteroids` and `asteroid_positions` are specified for Scenario() constructor."
                              "Make sure to only define one of these arguments")
-
-        # Store asteroid states
-        elif asteroid_states:
+        elif asteroid_states is not None:
             self.asteroid_states = asteroid_states
-        elif num_asteroids:
+        elif num_asteroids is not None:
             self.asteroid_states = [dict() for _ in range(num_asteroids)]
         else:
             raise (ValueError("User should define `num_asteroids` or `asteroid_states` to create "
                               "valid custom starting states for the environment"))
+
 
     @property
     def name(self):
