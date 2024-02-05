@@ -49,7 +49,8 @@ class KesslerGame:
                                 'asteroids_hit': True, 'shots_fired': True, 'bullets_remaining': True,
                                 'controller_name': True}
         
-    def run(self, scenario: Scenario, controllers: List[KesslerController], run_step=False) -> (Score, OrderedDict):
+    def run(self, scenario: Scenario, controllers: List[KesslerController], run_step=False,
+            stop_on_no_asteroids=True) -> (Score, OrderedDict):
         """
         Run an entire scenario from start to finish and return score and stop reason
         """
@@ -292,7 +293,7 @@ class KesslerGame:
             step += 1
 
             # No asteroids remain
-            if not asteroids:
+            if not asteroids and stop_on_no_asteroids:
                 stop_reason = StopReason.no_asteroids
             # No ships are alive
             elif not liveships:
