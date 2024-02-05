@@ -49,7 +49,7 @@ class KesslerGame:
                                 'asteroids_hit': True, 'shots_fired': True, 'bullets_remaining': True,
                                 'controller_name': True}
         
-    def run(self, scenario: Scenario, controllers: List[KesslerController]) -> (Score, OrderedDict):
+    def run(self, scenario: Scenario, controllers: List[KesslerController], run_step=False) -> (Score, OrderedDict):
         """
         Run an entire scenario from start to finish and return score and stop reason
         """
@@ -315,6 +315,10 @@ class KesslerGame:
                 time_dif = time.perf_counter() - step_start
                 while time_dif < (self.time_step/self.realtime_multiplier):
                     time_dif = time.perf_counter() - step_start
+
+            if run_step:
+                score.finalize(sim_time, stop_reason, ships)
+                yield score, perf_list
 
         ############################################
         # Finalization after scenario has been run #
