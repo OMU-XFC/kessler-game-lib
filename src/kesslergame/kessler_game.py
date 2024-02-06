@@ -48,7 +48,7 @@ class KesslerGame:
             self.UI_settings = {'ships': True, 'lives_remaining': True, 'accuracy': True,
                                 'asteroids_hit': True, 'shots_fired': True, 'bullets_remaining': True,
                                 'controller_name': True}
-        
+
     def run(self, scenario: Scenario, controllers: List[KesslerController], run_step=False,
             stop_on_no_asteroids=True) -> (Score, OrderedDict):
         """
@@ -319,7 +319,7 @@ class KesslerGame:
 
             if run_step:
                 score.finalize(sim_time, stop_reason, ships)
-                yield score, perf_list
+                yield score, perf_list, game_state
 
         ############################################
         # Finalization after scenario has been run #
@@ -332,7 +332,7 @@ class KesslerGame:
         score.finalize(sim_time, stop_reason, ships)
 
         # Return the score and stop condition
-        return score, perf_list
+        return score, perf_list, game_state
 
 
 class TrainerEnvironment(KesslerGame):

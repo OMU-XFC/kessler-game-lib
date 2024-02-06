@@ -4,7 +4,7 @@
 # this source code package.
 
 from .ship import Ship
-from .kessler_game import KesslerGame, TrainerEnvironment
+from .kessler_game import KesslerGame, TrainerEnvironment, StopReason
 from .controller import KesslerController
 from .controller_gamepad import GamepadController
 from .scenario import Scenario
@@ -13,5 +13,5 @@ from .graphics import GraphicsType, KesslerGraphics
 
 
 __all__ = ['KesslerGame', 'TrainerEnvironment', 'KesslerController', 'Scenario', 'Score', 'GraphicsType',
-           'KesslerGraphics', 'GamepadController']
+           'KesslerGraphics', 'GamepadController', 'StopReason']
 __version__ = '2.0.1'
