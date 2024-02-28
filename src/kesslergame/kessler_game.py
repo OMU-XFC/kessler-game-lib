@@ -109,6 +109,12 @@ class KesslerGame:
                 'sim_frame': step
             }
 
+            # The first yield happens before game pieces have been moved to better mirror the gymnasium API
+            # This is because env.reset() should return an observation of the initial game state
+            if run_step:
+                score.finalize(sim_time, stop_reason, ships)
+                yield score, perf_list, game_state
+
             # Initialize controller time recording in performance tracker
             if self.perf_tracker:
                 perf_dict['controller_times'] = []
@@ -317,9 +323,6 @@ class KesslerGame:
                 while time_dif < (self.time_step/self.realtime_multiplier):
                     time_dif = time.perf_counter() - step_start
 
-            if run_step:
-                score.finalize(sim_time, stop_reason, ships)
-                yield score, perf_list, game_state
 
         ############################################
         # Finalization after scenario has been run #
