@@ -49,12 +49,21 @@ class KesslerGame:
                                 'asteroids_hit': True, 'shots_fired': True, 'bullets_remaining': True,
                                 'controller_name': True}
 
-    def run(self, scenario: Scenario, controllers: List[KesslerController], run_step=False,
+    def run(self, scenario: Scenario, controllers: List[KesslerController],
             stop_on_no_asteroids=True) -> (Score, OrderedDict):
-        """
-        Run an entire scenario from start to finish and return score and stop reason
-        """
+        generator = self.run_step(scenario, controllers, stop_on_no_asteroids)
+        while True:
+            try:
+                score, perf_list, game_state = next(generator)
+            except StopIteration as exp:
+                print(exp)
+                return score, perf_list, game_state
 
+    def run_step(self, scenario: Scenario, controllers: List[KesslerController],
+                 stop_on_no_asteroids=True) -> (Score, OrderedDict):
+        """
+        Returns a generator that yields the score, perf_list, and game_state for each time step
+        """
         ##################
         # INITIALIZATION #
         ##################
@@ -111,9 +120,8 @@ class KesslerGame:
 
             # The first yield happens before game pieces have been moved to better mirror the gymnasium API
             # This is because env.reset() should return an observation of the initial game state
-            if run_step:
-                score.finalize(sim_time, stop_reason, ships)
-                yield score, perf_list, game_state
+            score.finalize(sim_time, stop_reason, ships)
+            yield score, perf_list, game_state
 
             # Initialize controller time recording in performance tracker
             if self.perf_tracker:
