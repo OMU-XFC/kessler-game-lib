@@ -48,7 +48,8 @@ class GraphicsTK(KesslerGraphics):
 
         # Grab and open sprite images in python
         script_dir = os.path.dirname(__file__)
-        self.image_paths = ["images/playerShip1_green.png",
+        self.image_paths = ["images/OMU_V2.png",
+                            "images/playerShip1_green.png",
                             "images/playerShip1_orange.png",
                             "images/playerShip2_orange.png",
                             "images/playerShip3_orange.png"]
