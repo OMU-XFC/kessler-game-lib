@@ -56,7 +56,6 @@ class KesslerGame:
             try:
                 score, perf_list, game_state = next(generator)
             except StopIteration as exp:
-                print(exp)
                 return score, perf_list, game_state
 
     def run_step(self, scenario: Scenario, controllers: List[KesslerController],
